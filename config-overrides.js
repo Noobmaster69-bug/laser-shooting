@@ -6,6 +6,7 @@ module.exports = {
       fs: false,
       path: false,
       crypto: false,
+      timers: false,
     };
     return config;
   },

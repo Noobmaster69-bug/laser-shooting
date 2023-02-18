@@ -129,5 +129,9 @@
     "prop-types": "^15.8.1",
     "react-app-rewired": "^2.2.1",
     "webpack": "^5.75.0"
+  },
+  "opencv4nodejs": {
+    "disableAutoBuild": 0,
+    "autoBuildBuildCuda": 1
   }
 }

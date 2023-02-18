@@ -10,19 +10,19 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Webcam from "react-webcam";
-import { getUserCamera } from "services/getUserCamera";
 import colors from "const/colors";
 import { Close, RocketLaunch } from "@mui/icons-material";
 import { useToggle, useUpdateEffect } from "usehooks-ts";
+import { useNavigate } from "react-router-dom";
+import useCamera from "queries/useCamera";
+
 export default function StartUp() {
-  const queryClient = useQueryClient();
   const [open, _toggleOpen, setOpen] = useToggle(false);
-  const { data, isLoading } = useQuery(["devices"], async () => {
-    return await getUserCamera();
-  });
+  const { data, isLoading } = useCamera();
   const [device, setDevice] = useState<MediaDeviceInfo | undefined>(undefined);
+  const navigate = useNavigate();
   useUpdateEffect(() => {
     if ((data || [])[0]) {
       if (!data?.some((_device) => _device.deviceId === device?.deviceId)) {
@@ -30,21 +30,7 @@ export default function StartUp() {
       }
     }
   }, [data]);
-  useEffect(() => {
-    const deviceChangeListener = () => {
-      queryClient.invalidateQueries(["devices"]);
-    };
-    navigator.mediaDevices.addEventListener(
-      "devicechange",
-      deviceChangeListener
-    );
-    return () => {
-      navigator.mediaDevices.removeEventListener(
-        "devicechange",
-        deviceChangeListener
-      );
-    };
-  }, [queryClient]);
+
   return (
     <Paper sx={{ width: "1280px", height: "480px" }} elevation={4}>
       <Stack height={"480px"} width="100%" direction={"row"}>
@@ -120,6 +106,9 @@ export default function StartUp() {
               sx={{ width: "120px", padding: "8px" }}
               disableRipple
               endIcon={<RocketLaunch />}
+              onClick={() => {
+                navigate(`/camera/${device?.deviceId}`);
+              }}
             >
               <Typography variant="subtitle2">Start</Typography>
             </Button>
