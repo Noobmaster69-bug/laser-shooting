@@ -23,7 +23,7 @@ const router = createHashRouter([
         element: <StartUp />,
       },
       {
-        path: "camera/:id",
+        path: "camera/:id/:distance/:size/:param1/:param2",
         element: <Camera />,
       },
       {

@@ -5,12 +5,13 @@ const url = require("url");
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 480,
+    width: 1400,
+    height: 600,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    fullscreen: true,
   });
 
   // and load the index.html of the app.
